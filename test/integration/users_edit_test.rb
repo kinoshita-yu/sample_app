@@ -1,9 +1,20 @@
 require 'test_helper'
 
-class UsersControllerTest < ActionDispatch::IntegrationTest
+class UsersEditTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
+  end
+
+  test "unsuccsessful edit" do
+    log_in_as(@user)
+    get edit_user_path(@user)
+    assert_template 'users/edit'
+    patch user_path(@user), params: { user: { name: "",
+                                      email: "foo@invalid",
+                                      password:              "foo",
+                                      password_confirmation: "bar" } }
+    assert_template 'users/edit'
   end
 
   test "should redirect edit when not logged in" do
@@ -17,11 +28,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
                                               email: @user.email } }
     assert_not flash.empty?
     assert_redirected_to login_url
-  end
-
-  test "should get new" do
-    get signup_path
-    assert_response :success
   end
 
 end
