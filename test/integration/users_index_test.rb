@@ -13,9 +13,6 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_template 'users/index'
 
     users = User.all
-    users.each do |user|
-      puts user.name
-    end
 
 #    assert_select 'div.pagination'
 #    first_page_of_users = User.paginate(page: 1)
